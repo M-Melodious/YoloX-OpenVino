@@ -6,7 +6,7 @@ RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6  -y
 
 COPY ./requirements.txt /requirements.txt
-COPY ./models.tar.gz /models.tar.gz
+COPY ./models.tgz /models.tgz
 
 WORKDIR /
 
