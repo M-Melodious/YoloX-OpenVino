@@ -11,7 +11,7 @@ COPY ./models.tar.gz /models.tar.gz
 WORKDIR /
 
 RUN pip3 install -r requirements.txt
-RUN tar -xzvf models.tar.gz
+RUN tar xvf models.tgz
 
 COPY . /
 
