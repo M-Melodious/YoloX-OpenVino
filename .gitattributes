@@ -1,3 +1,5 @@
 yolox_x/models.tar.gz filter=lfs diff=lfs merge=lfs -text
 yolox_x/models.tgz filter=lfs diff=lfs merge=lfs -text
 yolox_x/models/FP16/yolox_x.bin filter=lfs diff=lfs merge=lfs -text
+yolox_x/models/INT8/yolox-x_INT.bin filter=lfs diff=lfs merge=lfs -text
+yolox_x/models/INT8/yolox-x_INT8.bin filter=lfs diff=lfs merge=lfs -text
