@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM openvino/ubuntu20_runtime:2021.4.1
 
 USER root
 
