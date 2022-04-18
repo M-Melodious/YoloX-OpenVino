@@ -5,10 +5,10 @@ USER root
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6 wget  -y
-RUN apt install software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt install python3.9
-RUN apt-get -y install python3-pip
+RUN apt install software-properties-common  -y
+RUN add-apt-repository ppa:deadsnakes/ppa  -y
+RUN apt install python3.9  -y
+RUN apt-get -y install python3-pip  -y
 
 COPY ./requirements.txt /requirements.txt
 
