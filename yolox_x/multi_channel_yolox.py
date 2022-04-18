@@ -221,9 +221,9 @@ def main():
     out_video_name = Path(visualization.output_dir, "4-channel-yolox-x.mp4").as_posix()
     video_writer = get_video_writer(out_video_name, size=visualization.target_size)
 
-    if args.mode == 'async':
+    if inference.mode == 'async':
         _run_inference_async(infer_net, threaded_gen, video_caps, video_writer)
-    elif args.mode == 'sync':
+    elif inference.mode == 'sync':
         _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer)
     else:
         print(f"Unknown mode!!! Please either use async or sync")
