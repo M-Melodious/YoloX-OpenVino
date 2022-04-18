@@ -1,3 +1,4 @@
+openvino==2021.4.2
 opencv-python
 numpy
 Pillow
