@@ -4,8 +4,7 @@ FROM public.ecr.aws/lts/ubuntu:latest
 USER root
 
 RUN apt-get update
-RUN apt-get install ffmpeg libsm6 libxext6  -y
-RUN apt-get install wget
+RUN apt-get install ffmpeg libsm6 libxext6 wget  -y
 
 COPY ./requirements.txt /requirements.txt
 
