@@ -120,8 +120,7 @@ def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
 
 
         ## Write grid frame to output video
-        cv2.imwrite("temp.jpg", vis)
-##        video_writer.write(vis)
+        video_writer.write(vis)
 
     ## Stop all video threads
     stop_video_caps(video_caps)

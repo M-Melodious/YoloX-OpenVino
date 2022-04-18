@@ -11,6 +11,7 @@ inference = namespace(
 
 vid_sources = namespace(
     source_dir="./videos/"             # Path to input videos
+##    source_dir="./../../YoloX/data/images/"
 )
 
 post_process = namespace(
