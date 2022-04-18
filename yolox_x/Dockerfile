@@ -1,4 +1,5 @@
-FROM openvino/ubuntu20_runtime:2021.4.2
+#FROM openvino/ubuntu20_runtime:2021.4.2
+FROM public.ecr.aws/lts/ubuntu:latest
 
 USER root
 
