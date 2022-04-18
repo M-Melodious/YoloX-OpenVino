@@ -50,7 +50,7 @@ def get_video_writer(out_name:str, fps:int=30, size:tuple=None):
     
     """
     assert size, "Size needed for video writer"
-    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
     return cv2.VideoWriter(out_name, fourcc, fps, size)
 
 

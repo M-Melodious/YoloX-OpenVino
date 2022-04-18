@@ -5,7 +5,7 @@ inference = namespace(
     model="./models/INT8/yolox-x_INT8.xml", # Path to model xml file
     batch_size=4,                      # Batch size, equal to num of vid sources, default: 4
     num_requests=2,                    # Num requests for async mode
-    mode="sync",                      # Inference Mode, default: async
+    mode="async",                      # Inference Mode, default: async
     device="CPU"                       # Device, default: CPU
 )
 
