@@ -149,7 +149,8 @@ def main():
 
     ## Create video writer
     mkdir(visualization.output_dir)
-    out_video_name = Path(visualization.output_dir, "4-channel-yolox-x.mp4").as_posix()
+    vid_name = f"{len(video_caps)}-channel-{inference.mode}-yolox-x.avi"
+    out_video_name = Path(visualization.output_dir, vid_name).as_posix()
     video_writer = get_video_writer(out_video_name, size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
