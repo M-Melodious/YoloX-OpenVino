@@ -149,7 +149,7 @@ def main():
 
     ## Create video writer
     mkdir(visualization.output_dir)
-    vid_name = f"{len(video_caps)}-channel-{inference.mode}-yolox-x.avi"
+    vid_name = f"{len(video_caps)}-channel-{inference.mode}-yolox-x.mp4"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
     video_writer = get_video_writer(out_video_name, size=visualization.target_size)
 
