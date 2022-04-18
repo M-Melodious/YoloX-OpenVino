@@ -1,10 +1,14 @@
 #FROM openvino/ubuntu20_runtime:2021.4.2
-FROM public.ecr.aws/lts/ubuntu:latest
+FROM public.ecr.aws/lts/ubuntu:20.04
 
 USER root
 
 RUN apt-get update
 RUN apt-get install ffmpeg libsm6 libxext6 wget  -y
+RUN apt install software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt install python3.9
+RUN apt-get -y install python3-pip
 
 COPY ./requirements.txt /requirements.txt
 
