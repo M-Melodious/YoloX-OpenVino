@@ -46,8 +46,8 @@ def stop_video_caps(vid_caps):
 def batchify_frames(frames):
     return np.array(frames)
 
-def post_process(video_caps, output, net_shape=(640,640),
-                 nms_thresh=0.45, score_thresh=0.1):
+def get_detections(video_caps, output, net_shape=(640,640),
+                   nms_thresh=0.45, score_thresh=0.1):
     predictions = demo_postprocess(output, net_shape)
 
     for i in range(len(predictions)):
@@ -142,9 +142,9 @@ def _run_inference_async(infer_net, threaded_gen, video_caps, video_writer):
 
         if infer_net.wait(cur_batch_id) == 0:
             res = infer_net.get_output_async(cur_batch_id)
-            post_process(video_caps, res, net_shape=(h, w),
-                         nms_thresh=post_process.nms_thr,
-                         score_thresh=post_process.score_thr)
+            get_detections(video_caps, res, net_shape=(h, w),
+                           nms_thresh=post_process.nms_thr,
+                           score_thresh=post_process.score_thr)
 
         cur_batch_id, next_batch_id = next_batch_id, cur_batch_id
 
@@ -180,9 +180,9 @@ def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
         det_time = time.time() - det_start
         
         res = infer_net.get_output()
-        post_process(video_caps, res, net_shape=(h, w),
-                     nms_thresh=post_process.nms_thr,
-                     score_thresh=post_process.score_thr)
+        get_detections(video_caps, res, net_shape=(h, w),
+                       nms_thresh=post_process.nms_thr,
+                       score_thresh=post_process.score_thr)
 
         vis = visualize_multicam_detections(frames, video_caps,
                                             max_window_size=visualization.max_window_size,
