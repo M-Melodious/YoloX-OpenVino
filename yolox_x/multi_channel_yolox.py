@@ -183,7 +183,7 @@ def main():
     mkdir(visualization.output_dir)
     vid_name = f"{len(video_caps)}-channel-{inference.mode}.mp4"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
-    video_writer = get_video_writer(out_video_name, codec='MP4V',
+    video_writer = get_video_writer(out_video_name, codec='mp4v',
                                     size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
