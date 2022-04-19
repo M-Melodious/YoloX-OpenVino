@@ -92,7 +92,7 @@ def _run_inference_async(infer_net, threaded_gen, video_caps, video_writer):
 
     ## Stop fps and log the stats
     fps.stop()
-    logger.info(f"Elapsed time: {fps.elapsed():.2f}")
+    logger.info(f"Elapsed time: {fps.elapsed():.2f} seconds")
     logger.info(f"Approx. FPS: {fps.fps():.2f}")
 
     return
@@ -149,7 +149,7 @@ def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
 
     ## Stop fps and log the stats
     fps.stop()
-    logger.info(f"Elapsed time: {fps.elapsed():.2f}")
+    logger.info(f"Elapsed time: {fps.elapsed():.2f} seconds")
     logger.info(f"Approx. FPS: {fps.fps():.2f}")
 
     return
@@ -179,11 +179,11 @@ def main():
     threaded_gen = ThreadedGenerator(video_caps).__iter__()
 
     ## Create video writer
-    logger.info("Getting video writer (MP4V -> MP4)...")
+    logger.info("Getting video writer (MJPG -> AVI)...")
     mkdir(visualization.output_dir)
-    vid_name = f"{len(video_caps)}-channel-{inference.mode}.mp4"
+    vid_name = f"{len(video_caps)}-channel-{inference.mode}.avi"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
-    video_writer = get_video_writer(out_video_name, codec='mp4v',
+    video_writer = get_video_writer(out_video_name, codec='MJPG',
                                     size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
