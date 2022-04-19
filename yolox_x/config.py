@@ -4,7 +4,7 @@ from types import SimpleNamespace as namespace
 inference = namespace(
     model="./models/INT8/yolox-x_INT8.xml", # Path to model xml file
     batch_size=4,                      # Batch size, equal to num of vid sources, default: 4
-    num_requests=2,                    # Num requests for async mode
+    num_requests=4,                    # Num requests for async mode
     mode="async",                      # Inference Mode, default: async
     device="CPU"                       # Device, default: CPU
 )

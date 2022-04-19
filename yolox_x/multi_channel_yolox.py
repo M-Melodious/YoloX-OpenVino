@@ -9,6 +9,7 @@ import logging as log
 from pathlib import Path
 
 from yolox.utils import mkdir
+from run_async_n import run_async_n
 
 from inference import Network
 from filevideostream import FPS, VideoCap, ThreadedGenerator
@@ -189,7 +190,8 @@ def main():
     ## Perform inference according to mode specify in config file
     if inference.mode == 'async':
         logger.info("Running inference in async mode...")
-        _run_inference_async(infer_net, threaded_gen, video_caps, video_writer)
+##        _run_inference_async(infer_net, threaded_gen, video_caps, video_writer)
+        run_async_n(infer_net, threaded_gen, video_caps, video_writer)
     elif inference.mode == 'sync':
         logger.info("Running inference in sync mode...")
         _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer)
