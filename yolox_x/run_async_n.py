@@ -4,6 +4,7 @@ import time
 import logging
 import threading
 
+from enum import Enum
 from collections import deque
 from time import perf_counter
 
