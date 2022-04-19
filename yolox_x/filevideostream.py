@@ -170,7 +170,7 @@ class VideoCap:
 
 
 class FramesThreadBody:
-    def __init__(self, vid_caps, max_queue_length=128):
+    def __init__(self, vid_caps, max_queue_length=64):
         self.process = True
         self.frames_queue = Queue()
         self.proc_frames_queue = Queue()
@@ -204,7 +204,7 @@ class ThreadedGenerator(object):
 
     def __init__(self, iterator,
                  sentinel=object(),
-                 queue_maxsize=128,
+                 queue_maxsize=64,
                  daemon=True,
                  Thread=Thread,
                  Queue=Queue):
