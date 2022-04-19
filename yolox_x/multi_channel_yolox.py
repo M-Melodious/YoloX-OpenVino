@@ -12,7 +12,7 @@ from yolox.utils import mkdir
 
 from inference import Network
 from filevideostream import VideoCap, ThreadedGenerator
-from config import inference, vid_sources, post_process, visualization
+from config import inference, vid_source, post_process, visualization
 
 from helpers import (
     get_video_caps,
