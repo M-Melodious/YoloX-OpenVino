@@ -142,7 +142,7 @@ def main():
     ## Create video threads and start the threads to fill up the buffer in background
     videos_list = list(Path(vid_source.source_dir).glob("*.*"))
     video_caps = get_video_caps([vid.as_posix() for vid in videos_list],
-                                resize=(h,w), buf_size=video_source.buf_size)
+                                resize=(h,w), buf_size=vid_source.buf_size)
 
     threaded_gen = ThreadedGenerator(video_caps).__iter__()
 
