@@ -158,6 +158,18 @@ def run_async_n(infer_net, threaded_gen, video_caps, video_writer):
     if callback_exceptions:
         raise callback_exceptions[0]
 
+    for mode_value in mode_info.keys():
+        log.info("")
+        log.info("Mode: {}".format(mode_value.name))
+
+        end_time = mode_info[mode_value].last_end_time if mode_value in mode_info \
+                                                          and mode_info[mode_value].last_end_time is not None \
+                                                       else perf_counter()
+        log.info("FPS: {:.1f}".format(mode_info[mode_value].frames_count / \
+                                      (end_time - mode_info[mode_value].last_start_time)))
+        log.info("Latency: {:.1f} ms".format((mode_info[mode_value].latency_sum / \
+                                             mode_info[mode_value].frames_count) * 1e3))
+
     await_requests_completion(infer_net.net_plugin.requests)
 
     return
