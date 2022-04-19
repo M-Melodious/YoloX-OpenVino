@@ -10,9 +10,9 @@ inference = namespace(
 )
 
 vid_source = namespace(
-    source_dir="./videos/",            # Path to input videos
-    buf_size=64                        # Buffer size to store frames
-##    source_dir="./../../YoloX/data/images/"
+##    source_dir="./videos/",            # Path to input videos
+    buf_size=64,                        # Buffer size to store frames
+    source_dir="./../../YoloX/data/images/"
 )
 
 post_process = namespace(

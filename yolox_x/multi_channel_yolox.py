@@ -179,11 +179,12 @@ def main():
     threaded_gen = ThreadedGenerator(video_caps).__iter__()
 
     ## Create video writer
-    logger.info("Getting video writer (H264 -> MKV)...")
+    logger.info("Getting video writer (MP4V -> MP4)...")
     mkdir(visualization.output_dir)
-    vid_name = f"{len(video_caps)}-channel-{inference.mode}.mkv"
+    vid_name = f"{len(video_caps)}-channel-{inference.mode}.mp4"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
-    video_writer = get_video_writer(out_video_name, size=visualization.target_size)
+    video_writer = get_video_writer(out_video_name, codec='MP4V',
+                                    size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
     if inference.mode == 'async':
@@ -197,7 +198,7 @@ def main():
 
     ## Release the object
     video_writer.release()
-    logger.info(f"Inference video saved to {out_video_name.as_posix()}...")
+    logger.info(f"Inference video saved to {out_video_name}...")
     logger.info("Inference done!")
 
 
