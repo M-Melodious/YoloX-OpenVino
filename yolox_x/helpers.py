@@ -44,13 +44,14 @@ def get_video_caps(video_list:list, resize:tuple=None,
     return video_caps
 
 
-def get_video_writer(out_name:str, fps:int=30, size:tuple=None):
+def get_video_writer(out_name:str, codec:str='H264',
+                     fps:int=20, size:tuple=None):
     """
     Helper function to create video writer.
     
     """
     assert size, "Size needed for video writer"
-    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+    fourcc = cv2.VideoWriter_fourcc(*codec)
     return cv2.VideoWriter(out_name, fourcc, fps, size)
 
 

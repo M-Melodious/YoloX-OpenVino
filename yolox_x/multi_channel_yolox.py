@@ -11,7 +11,7 @@ from pathlib import Path
 from yolox.utils import mkdir
 
 from inference import Network
-from filevideostream import VideoCap, ThreadedGenerator
+from filevideostream import FPS, VideoCap, ThreadedGenerator
 from config import inference, vid_source, post_process, visualization
 
 from helpers import (
@@ -23,7 +23,13 @@ from helpers import (
     put_highlighted_text,
     visualize_multicam_detections
 )
-    
+
+
+## Logger
+log.basicConfig(format="[ %(levelname)s ] %(message)s", level=log.INFO, stream=sys.stdout)
+logger = log.getLogger()
+
+
 
 def _run_inference_async(infer_net, threaded_gen, video_caps, video_writer):
     """
@@ -36,6 +42,8 @@ def _run_inference_async(infer_net, threaded_gen, video_caps, video_writer):
     _, c, h, w = infer_net.get_input_shape()
     start_time = time.time()
 
+    fps = FPS().start()
+    
     ## Get the fist batch and perform inference
     prev_frames = next(threaded_gen)
     infer_net.exec_net_async(cur_batch_id,
@@ -76,8 +84,18 @@ def _run_inference_async(infer_net, threaded_gen, video_caps, video_writer):
 
         prev_frames, frames = frames, prev_frames
 
+        ## Update fps stats
+        fps.update()
+
     ## Stop the video threads
     stop_video_caps(video_caps)
+
+    ## Stop fps and log the stats
+    fps.stop()
+    logger.info(f"Elapsed time: {fps.elapsed():.2f}")
+    logger.info(f"Approx. FPS: {fps.fps():.2f}")
+
+    return
     
 
 def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
@@ -89,6 +107,7 @@ def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
     det_time = 0
     
     start_time = time.time()
+    fps = FPS().start()
 
     ## Loop through batches and perform inference
     for frames in threaded_gen:
@@ -122,8 +141,18 @@ def _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer):
         ## Write grid frame to output video
         video_writer.write(vis)
 
+        ## Update fps stats
+        fps.update()
+
     ## Stop all video threads
     stop_video_caps(video_caps)
+
+    ## Stop fps and log the stats
+    fps.stop()
+    logger.info(f"Elapsed time: {fps.elapsed():.2f}")
+    logger.info(f"Approx. FPS: {fps.fps():.2f}")
+
+    return
 
         
 
@@ -133,38 +162,43 @@ def main():
     
     """
     ## Create network and load the weights
+    logger.info("Loading weights...")
     infer_net = Network()
     infer_net.load_model(inference.model, inference.device,
                          num_requests=inference.num_requests,
                          batch_size=inference.batch_size)
     _, c, h, w = infer_net.get_input_shape()
 
+    logger.info("Creating background video threads...")
     ## Create video threads and start the threads to fill up the buffer in background
     videos_list = list(Path(vid_source.source_dir).glob("*.*"))
     video_caps = get_video_caps([vid.as_posix() for vid in videos_list],
                                 resize=(h,w), buf_size=vid_source.buf_size)
 
+    logger.info("Starting threaded generator in background...")
     threaded_gen = ThreadedGenerator(video_caps).__iter__()
 
     ## Create video writer
+    logger.info("Getting video writer (H264 -> MKV)...")
     mkdir(visualization.output_dir)
-    vid_name = f"{len(video_caps)}-channel-{inference.mode}.avi"
+    vid_name = f"{len(video_caps)}-channel-{inference.mode}.mkv"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
     video_writer = get_video_writer(out_video_name, size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
     if inference.mode == 'async':
-        print(f"Inference in async mode")
+        logger.info("Running inference in async mode...")
         _run_inference_async(infer_net, threaded_gen, video_caps, video_writer)
     elif inference.mode == 'sync':
-        print(f"Inference in sync mode")
+        logger.info("Running inference in sync mode...")
         _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer)
     else:
-        print(f"Unknown mode!!! Please either use async or sync")
+        logger.error("Unknown inference mode!!!")
 
     ## Release the object
     video_writer.release()
-    print("Done!!!")
+    logger.info(f"Inference video saved to {out_video_name.as_posix()}...")
+    logger.info("Inference done!")
 
 
 
