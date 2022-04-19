@@ -1,8 +1,8 @@
 import cv2
 import sys
 import time
+import logging
 import threading
-import logging as log
 
 from collections import deque
 from time import perf_counter
