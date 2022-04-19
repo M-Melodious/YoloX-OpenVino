@@ -216,6 +216,7 @@ class ThreadedGenerator(object):
             target=self._run
         )
         self._thread.daemon = daemon
+        self.running = False
 
     def __repr__(self):
         return 'ThreadedGenerator({!r})'.format(self._iterator)
@@ -229,6 +230,7 @@ class ThreadedGenerator(object):
                     self._queue.put([vid.read() for vid in self._iterator])
 
                     if not all([vid.fvs.running() for vid in self._iterator]):
+                        self.running = False
                         break
                 else:
                     time.sleep(0.1)
@@ -238,6 +240,7 @@ class ThreadedGenerator(object):
 
     def __iter__(self):
         self._thread.start()
+        self.running = True
         for value in iter(self._queue.get, self._sentinel):
             yield value
 
