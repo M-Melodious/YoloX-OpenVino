@@ -191,7 +191,8 @@ def main():
     if inference.mode == 'async':
         logger.info("Running inference in async mode...")
 ##        _run_inference_async(infer_net, threaded_gen, video_caps, video_writer)
-        run_async_n(infer_net, threaded_gen, video_caps, video_writer)
+        run_async_n(infer_net, threaded_gen, video_caps,
+                    video_writer, net_shape=(h,w))
     elif inference.mode == 'sync':
         logger.info("Running inference in sync mode...")
         _run_inference_sync(infer_net, threaded_gen, video_caps, video_writer)

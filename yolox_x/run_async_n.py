@@ -71,7 +71,8 @@ def await_requests_completion(requests):
         request.wait()
 
 
-def run_async_n(infer_net, threaded_gen, video_caps, video_writer):
+def run_async_n(infer_net, threaded_gen, video_caps,
+                video_writer, net_shape=(640,640)):
     """
     Function for n async inference.
     
@@ -88,9 +89,9 @@ def run_async_n(infer_net, threaded_gen, video_caps, video_writer):
     callback_exceptions = []
 
     while (completed_request_results
-           or len(empty_requests) < len(infer_net.requests)) \
+           or len(empty_requests) < len(infer_net.net_plugin.requests)) \
            and not callback_exceptions:
-        if next_frame_id_to_show in completed_request_results:
+        if next_batch_id_to_show in completed_request_results:
             frames, output, start_time, is_same_mode = \
                     completed_request_results.pop(next_batch_id_to_show)
 
@@ -100,7 +101,7 @@ def run_async_n(infer_net, threaded_gen, video_caps, video_writer):
                 mode_info[mode.current].frames_count += 1
 
             res = output[infer_net.out_blob].buffer
-            get_detections(video_caps, res, net_shape=(h, w),
+            get_detections(video_caps, res, net_shape=net_shape,
                            nms_thresh=post_process.nms_thr,
                            score_thresh=post_process.score_thr)
 
