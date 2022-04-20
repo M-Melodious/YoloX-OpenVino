@@ -87,8 +87,9 @@ def run_async_n(infer_net, threaded_gen, video_caps,
     next_batch_id_to_show = 0
     event = threading.Event()
     callback_exceptions = []
+    running = True
 
-    while (threaded_gen.running
+    while (running
            or completed_request_results
            or len(empty_requests) < len(infer_net.net_plugin.requests)) \
            and not callback_exceptions:
@@ -126,12 +127,13 @@ def run_async_n(infer_net, threaded_gen, video_caps,
 
             video_writer.write(vis)
             
-        elif empty_requests and threaded_gen.running:
+        elif empty_requests and running:
             start_time = perf_counter()
             frames = next(threaded_gen, None)
 
             if not frames:
                 stop_video_caps(video_caps)
+                running = False
                 continue
 
             proc_frames = batchify_frames([f[1] for f in frames])
@@ -152,7 +154,7 @@ def run_async_n(infer_net, threaded_gen, video_caps,
                                                      event,
                                                      callback_exceptions))
 
-            request.async_infer(inputs={input_blob: proc_frames})
+            request.async_infer(inputs={infer_net.input_blob: proc_frames})
             next_batch_id += 1
 
         else:

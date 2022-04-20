@@ -225,12 +225,12 @@ class ThreadedGenerator(object):
         try:
 ##            for value in self._iterator:
 ##                self._queue.put(value)
+            self.running = True
             while True:
                 if not self._queue.full():
                     self._queue.put([vid.read() for vid in self._iterator])
 
                     if not all([vid.fvs.running() for vid in self._iterator]):
-                        self.running = False
                         break
                 else:
                     time.sleep(0.1)
@@ -240,9 +240,10 @@ class ThreadedGenerator(object):
 
     def __iter__(self):
         self._thread.start()
-        self.running = True
         for value in iter(self._queue.get, self._sentinel):
             yield value
+
+        self.running = False
 
         self._thread.join()
 

@@ -5,13 +5,14 @@ inference = namespace(
     model="./models/INT8/yolox-x_INT8.xml", # Path to model xml file
     batch_size=4,                      # Batch size, equal to num of vid sources, default: 4
     num_requests=4,                    # Num requests for async mode
+    num_streams=4,                     # Num streams for parallel stream
     mode="async",                      # Inference Mode, default: async
     device="CPU"                       # Device, default: CPU
 )
 
 vid_source = namespace(
     source_dir="./videos/",            # Path to input videos
-    buf_size=64,                        # Buffer size to store frames
+    buf_size=10,                        # Buffer size to store frames
 ##    source_dir="./../../YoloX/data/images/"
 )
 
