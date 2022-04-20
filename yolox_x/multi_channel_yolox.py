@@ -180,11 +180,11 @@ def main():
     threaded_gen = ThreadedGenerator(video_caps).__iter__()
 
     ## Create video writer
-    logger.info("Getting video writer (MJPG -> AVI)...")
+    logger.info("Getting video writer (XVID -> AVI)...")
     mkdir(visualization.output_dir)
     vid_name = f"{len(video_caps)}-channel-{inference.mode}.avi"
     out_video_name = Path(visualization.output_dir, vid_name).as_posix()
-    video_writer = get_video_writer(out_video_name, codec='MJPG',
+    video_writer = get_video_writer(out_video_name, codec='XVID',
                                     size=visualization.target_size)
 
     ## Perform inference according to mode specify in config file
