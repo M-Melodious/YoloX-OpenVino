@@ -12,7 +12,7 @@ inference = namespace(
 
 vid_source = namespace(
     source_dir="./videos/",            # Path to input videos
-    buf_size=10,                        # Buffer size to store frames
+    buf_size=128,                        # Buffer size to store frames
 ##    source_dir="./../../YoloX/data/images/"
 )
 
